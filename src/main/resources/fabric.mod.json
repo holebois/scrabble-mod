@@ -2,8 +2,8 @@
 	"schemaVersion": 1,
 	"id": "scrabble",
 	"version": "${version}",
-	"name": "Scrabble mod",
-	"description": "scrabble mod",
+	"name": "Scrabble Dictionary",
+	"description": "scrabble dictionary",
 	"authors": [
 		"Galiano"
 	],
