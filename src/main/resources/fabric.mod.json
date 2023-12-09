@@ -1,0 +1,33 @@
+{
+	"schemaVersion": 1,
+	"id": "scrabble",
+	"version": "${version}",
+	"name": "Scrabble mod",
+	"description": "scrabble mod",
+	"authors": [
+		"Galiano"
+	],
+	"contact": {
+		"homepage": "https://activepass.me/scrabble"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/scrabble/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.holebois.scrabble.ScrabbleMod"
+		],
+		"client": [
+			"com.holebois.scrabble.ScrabbleModClient"
+		]
+	},
+	"mixins": [
+		"scrabble.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.0",
+		"minecraft": "~1.20.4",
+		"java": ">=17",
+		"fabric-api": "*"
+	}
+}
