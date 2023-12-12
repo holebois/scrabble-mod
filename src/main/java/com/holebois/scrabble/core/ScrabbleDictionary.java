@@ -51,7 +51,7 @@ public class ScrabbleDictionary {
         return found;
     }
 
-    public static int getPoints(String word) {
+    public static int getPoints(String word) { //? note to self: allow user to pass in the point modifiers at some point
         int points = 0;
         for (char c : word.toCharArray()) {
             points += getPoints(c);
