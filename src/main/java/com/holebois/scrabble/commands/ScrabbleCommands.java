@@ -21,6 +21,16 @@ public class ScrabbleCommands {
                     })
                 )
             )
+            .then(literal("points")
+                .then(argument("word", StringArgumentType.string())
+                    .executes(context -> {
+                        String word = StringArgumentType.getString(context, "word");
+                        Text message = Text.of("\"" + word + "\" is worth §a" + ScrabbleDictionary.getPoints(word) + "§r points.");
+                        context.getSource().sendFeedback(message);
+                        return 1;
+                    })
+                )
+            )
         ));
     }
 }
