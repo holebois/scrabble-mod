@@ -13,7 +13,7 @@ public class ScrabbleDictionary {
 
     public static boolean isWord(String word) {
         LOGGER.info(word);
-        try { //? maybe make async if desired, the longest search time is ~4.5ms
+        try {
             long startTime = System.nanoTime();
             boolean found = findWordChar(word);
             long endTime = System.nanoTime();
@@ -51,13 +51,97 @@ public class ScrabbleDictionary {
         return found;
     }
 
-    public static int getPoints(String word) { //? note to self: allow user to pass in the point modifiers at some point
-        int points = 0;
-        for (char c : word.toCharArray()) {
-            points += getPoints(c);
-        }
-        return points;
+    public static String getCleanWord(String word) {
+        return word.replaceAll("[0-9]", "").toLowerCase();
     }
+
+    public static int getPoints(String word) {
+        int points = 0;
+        int modifier1 = 1;
+        int modifier2 = 1;
+        char[] chars = word.toCharArray();
+        int lastPoints = 0;
+
+
+        for (int i = 0; i < chars.length; i++) {
+            Character c = chars[i];
+            if (!Character.isDigit(c)) {
+                int newPoints = getPoints(c);
+                points += newPoints;
+                lastPoints = newPoints;
+                continue;   
+            }
+            if (i == 0) {
+                modifier1 = Character.getNumericValue(c);
+                continue;
+            } else if (i == 1 && modifier1 != 1) {
+                modifier2 = Character.getNumericValue(c);
+                continue;
+            } else {
+                points = (points - lastPoints) + (lastPoints * Character.getNumericValue(c));
+            }
+            
+        }
+        return points * modifier1 * modifier2;
+    }
+
+    public static String getPointBreakdown(String word) {
+        String breakdown = "(";
+        int modifier1 = 1;
+        int modifier2 = 1;
+        char[] chars = word.toCharArray();
+        boolean first = true;
+
+        for (int i=0; i < chars.length; i++) {
+            Character c = chars[i];
+            if (!Character.isDigit(c)) {
+                if (!first) {
+                    breakdown += ", ";
+                } else {
+                    first = false;
+                }
+                int newPoints = getPoints(c);
+                breakdown += Character.toUpperCase(c) + getSubscriptUnicode(newPoints);
+            } else {
+                if (i == 0) {
+                    modifier1 = Character.getNumericValue(c);
+                    continue;
+                } else if (i == 1 && modifier1 != 1) {
+                    modifier2 = Character.getNumericValue(c);
+                    continue;
+                } else {
+                    breakdown += "x" + Character.getNumericValue(c);
+                }
+            }
+        }
+
+        int combinedModifier = modifier1 * modifier2;
+        return breakdown + ")" + (combinedModifier != 1 ? " x" + combinedModifier : "");
+    }
+
+    private static String getSubscriptUnicode(int i) {
+        switch (i) {
+            case 0:
+                return "\u2080";
+            case 1:
+                return "\u2081";
+            case 2:
+                return "\u2082";
+            case 3:
+                return "\u2083";
+            case 4:
+                return "\u2084";
+            case 5:
+                return "\u2085";
+            case 8:
+                return "\u2088";
+            case 10:
+                return "\u2081\u2080";
+            default:
+                return "";
+        }
+    }
+
 
     public static int getPoints(char c) {
         switch (Character.toUpperCase(c)) {
