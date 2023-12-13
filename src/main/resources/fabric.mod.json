@@ -15,10 +15,10 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"com.holebois.scrabble.ScrabbleMod"
+			"com.holebois.scrabble.Scrabble"
 		],
 		"client": [
-			"com.holebois.scrabble.ScrabbleModClient"
+			"com.holebois.scrabble.ScrabbleClient"
 		]
 	},
 	"mixins": [

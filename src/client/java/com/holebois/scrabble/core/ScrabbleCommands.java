@@ -1,4 +1,4 @@
-package com.holebois.scrabble.commands;
+package com.holebois.scrabble.core;
 
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.minecraft.text.HoverEvent;
@@ -9,7 +9,6 @@ import net.minecraft.util.Formatting;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.*;
 
-import com.holebois.scrabble.core.ScrabbleDictionary;
 import com.mojang.brigadier.arguments.StringArgumentType;
 
 public class ScrabbleCommands {
@@ -61,8 +60,7 @@ public class ScrabbleCommands {
                             "scr3abb2le" - double letter B, triple letter R
                             "33scr3abble" - 2x Triple Word, Triple letter R§r
                             
-                            To count the points of a word, first enter the word multipliers (3, 33, 2, 22) followed by the word. To indicate a letter multiplier, enter the value of the multiplier after the letter.  (U3, K2, c2, etc.) Examples Above.
-                            """;
+                            To count the points of a word, first enter the word multipliers (3, 33, 2, 22) followed by the word. To indicate a letter multiplier, enter the value of the multiplier after the letter.  (U3, K2, c2, etc.) Examples Above.""";
 
 
 
