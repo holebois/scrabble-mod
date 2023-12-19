@@ -8,11 +8,11 @@
 		"Galiano"
 	],
 	"contact": {
-		"homepage": "https://activepass.me/scrabble"
+		"homepage": "https://holebois.com/scrabble"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/scrabble/icon.png",
-	"environment": "*",
+	"environment": "Client",
 	"entrypoints": {
 		"main": [
 			"com.holebois.scrabble.Scrabble"
