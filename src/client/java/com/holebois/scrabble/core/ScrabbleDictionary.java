@@ -10,12 +10,46 @@ import org.slf4j.Logger;
 
 public class ScrabbleDictionary {
     public static Logger LOGGER = org.slf4j.LoggerFactory.getLogger("ScrabbleMod");
+    public static String[] words = new String[267751];
+
+    public static void init() {
+        LOGGER.info("Loading Scrabble Dictionary");
+        try (InputStream stream = ScrabbleDictionary.class.getResourceAsStream("/assets/scrabble/words.txt");
+                BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
+            String line;
+            int i = 0;
+            while ((line = reader.readLine()) != null) {
+                words[i] = line;
+                i++;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        LOGGER.info("Loaded Scrabble Dictionary");
+    }
+
+    public static boolean findWordBinary(String word) {
+        int min = 0;
+        int max = words.length - 1;
+        int mid = (min + max) / 2;
+        while (min <= max) {
+            if (words[mid].equals(word.toUpperCase())) {
+                return true;
+            } else if (words[mid].compareTo(word.toUpperCase()) < 0) {
+                min = mid + 1;
+            } else {
+                max = mid - 1;
+            }
+            mid = (min + max) / 2;
+        }
+        return false;
+    }
 
     public static boolean isWord(String word) {
         LOGGER.info(word);
         try {
             long startTime = System.nanoTime();
-            boolean found = findWordChar(word);
+            boolean found = findWordBinary(word);
             long endTime = System.nanoTime();
             long duration = (endTime - startTime);
             LOGGER.info((found ? "Found \'" : "Couldn't Find \'") + word + "\' . Duration: " + duration + "ns");
@@ -26,29 +60,6 @@ public class ScrabbleDictionary {
             return false;
         }
 
-    }
-
-    private static boolean findWordChar(String word) {
-        char firstLetter = word.charAt(0);
-        String fileName = "/assets/scrabble/words/" + Character.toUpperCase(firstLetter) + ".txt";
-        InputStream inputStream = ScrabbleDictionary.class.getResourceAsStream(fileName);
-        return find(inputStream, word);
-    }
-
-    private static boolean find(InputStream stream, String word) {
-        boolean found = false;
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (line.equals(word.toUpperCase())) {
-                    found = true;
-                    break;
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return found;
     }
 
     public static String getCleanWord(String word) {
